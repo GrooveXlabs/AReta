@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from gateway.jobs import InMemoryJobStore, Job
+from superhuman.gateway.jobs import InMemoryJobStore, Job
 
 app = FastAPI(title="superhuman-gateway", version="0.1.0")
 store = InMemoryJobStore()
