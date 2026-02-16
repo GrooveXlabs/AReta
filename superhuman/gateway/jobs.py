@@ -17,6 +17,14 @@ class JobState(str, Enum):
     COMPLETED = "COMPLETED"
     NEEDS_APPROVAL = "NEEDS_APPROVAL"
     FAILED = "FAILED"
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from threading import Lock
+from typing import Literal
+from uuid import uuid4
+
+
+JobStatus = Literal["queued"]
 
 
 @dataclass(slots=True)
@@ -32,6 +40,15 @@ class DiskJobStore:
 
     def __init__(self, jobs_dir: Path = DATA_JOBS_DIR) -> None:
         self._jobs_dir = jobs_dir
+    status: JobStatus
+    created_at: str
+
+
+class InMemoryJobStore:
+    """Thread-safe in-memory store for job metadata."""
+
+    def __init__(self) -> None:
+        self._jobs: dict[str, Job] = {}
         self._lock = Lock()
 
     def create_job(self, goal: str) -> Job:
