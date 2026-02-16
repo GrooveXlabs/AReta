@@ -1,4 +1,4 @@
-# superhuman (Phase 1)
+# superhuman (Phase 2)
 
 Minimal local execution engine foundation with a FastAPI gateway.
 
@@ -53,7 +53,22 @@ uvicorn gateway.main:app --host 127.0.0.1 --port 8000 --reload
 
 - `GET /jobs/{id}`
 
-## Security note (Phase 1)
+## Job persistence and audit files
+
+Job data is persisted under repository-level `./data/jobs/`:
+
+- Job JSON: `./data/jobs/<job_id>.json`
+- Job audit log: `./data/jobs/<job_id>.log`
+
+Inspect files from the repository root:
+
+```powershell
+Get-ChildItem .\data\jobs
+Get-Content .\data\jobs\<job_id>.json
+Get-Content .\data\jobs\<job_id>.log
+```
+
+## Security note
 
 Filesystem operations are intended to be restricted to `./workspace`. A placeholder
 sandbox utility lives at `tools/sandbox.py` and should be used by future
